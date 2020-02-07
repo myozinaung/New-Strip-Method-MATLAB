@@ -34,6 +34,5 @@ SUMS = exp(-WKB*ZQ(J+1))*SSCC2 - exp(-WKB*ZQ(J))*SSCC1; % sin sin + cos cos
 
 EJC = -SUMC/DENO; % for Surge & Heave >> Unsymmetric >> cos term
 EJS = -SUMS/DENO; % for Sway  & Roll  >> Symmetric   >> sin term
-return;
 
 end % end of function

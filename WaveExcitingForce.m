@@ -1,7 +1,7 @@
 % **********************************************************************
 % **********   CALCULATION OF WAVE EXCITING FORCE AND MOMENT   *********
 % **********************************************************************
-function [E_AMP, E_PHA, ZE3D] = DFORCE(NX,NB,AKA,WKA,UWE,KAI,LEN,X,SEC,NOR,ZAB)
+function [E_AMP, E_PHA, ZE3D] = WaveExcitingForce(NX,NB,AKA,WKA,UWE,KAI,LEN,X,SEC,NOR,ZAB)
 
 MNX = NX+1;
 
@@ -89,12 +89,12 @@ for I = 2:NX % Obtain Forces for each Section
     ZF6(I)=  X(I)*ZF2(I) - eiKxCos*WWeB*UWE*exp(-WKB*ZQ1)*ZAB_Sway*sin(KAI);
 end
   
-ZE3D(1) = SIMP(dX,NX+1,ZF1);
-ZE3D(2) = SIMP(dX,NX+1,ZF2);
-ZE3D(3) = SIMP(dX,NX+1,ZF3);
-ZE3D(4) = SIMP(dX,NX+1,ZF4);
-ZE3D(5) = SIMP(dX,NX+1,ZF5);
-ZE3D(6) = SIMP(dX,NX+1,ZF6);
+ZE3D(1) = Simpson(dX,NX+1,ZF1);
+ZE3D(2) = Simpson(dX,NX+1,ZF2);
+ZE3D(3) = Simpson(dX,NX+1,ZF3);
+ZE3D(4) = Simpson(dX,NX+1,ZF4);
+ZE3D(5) = Simpson(dX,NX+1,ZF5);
+ZE3D(6) = Simpson(dX,NX+1,ZF6);
 
 % +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DNON = A*B/WAREA;

@@ -52,18 +52,18 @@ UWE = sqrt(2*FR^2/AKA);         % = (U/Omega_e)/(L/2) >> Non-dimensionalized U/O
 %%  Solution of radiation problem at transverse sections %%
 % ZAB >> Complex Added Mass and Damping Coefficients
 % Hj  >> Kochin Function
-[ZAB, Hj] = TWORAD(NX,NB,NT,AKB,SEC,NOR);
+[ZAB, Hj] = RadiationSolve(NX,NB,NT,AKB,SEC,NOR);
 
 %% Calculation of added-mass and damping coefficients %%
-[ADD, DAMP, ZAB3D] = RFORCE(NX,AKL,UWE,LEN,X,ZAB);
+[ADD, DAMP, ZAB3D] = AddedMassAndDamping(NX,AKL,UWE,LEN,X,ZAB);
 % Wave info AKL is for Non-dimensionalization
 % Wave info UWE is for Speed effect and 6 DOF coefficients
 
 %% Calculation of wave exciting force and moment %%
 % E_AMP, E_PHA >> Force Amplitude and Phase
-[E_AMP, E_PHA, ZE3D] = DFORCE(NX,NB,AKA,WKA,UWE,KAI,LEN,X,SEC,NOR,ZAB);
+[E_AMP, E_PHA, ZE3D] = WaveExcitingForce(NX,NB,AKA,WKA,UWE,KAI,LEN,X,SEC,NOR,ZAB);
 
 %% Motion Calculation by New Strip Method %%
 % M_AMP, M_PHA >> Motion Amplitude and Phase
-[M_AMP, M_PHA, ZXJ] = MSTRIP(AKA,WKA,LEN,MDT,ZAB3D,ZE3D);
+[M_AMP, M_PHA, ZXJ] = MotionSolve(AKA,WKA,LEN,MDT,ZAB3D,ZE3D);
 

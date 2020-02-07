@@ -1,7 +1,7 @@
 % *********************************************************************
 % ***********  CALCULATIONS OF FORCES AND KOCHIN FUNCTION  ************
 % *********************************************************************
-function [Zij,Hj,CHEK] = F2DRAD(NB,AK,VP,ELM,VN)
+function [Zij,Hj,CHEK] = ForceAndKochin(NB,AK,VP,ELM,VN)
 % Turn ZFIR into ZAB (or ZFAB)
 XQ = ELM.YQ;
 YQ = ELM.ZQ;

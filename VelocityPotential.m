@@ -1,28 +1,28 @@
 % *********************************************************************
 % **********     SOLUTION OF 2-D RADIATION PROBLEM BY BEM     *********
 % *********************************************************************
-function [Zij,Hj] = SOLRAD(NB,NT,AK,ELM,VN)
+function VP = VelocityPotential(NB,NT,AK,ELM,VN)
 NQ = NB+1; NP = NB+2;
 
 %% Calculation starts
 FS2_SuH = zeros(NQ,1);
-FS2_SR = zeros(NQ,1);
+FS2_SR  = zeros(NQ,1);
 
 Dmn_SuH = zeros(NP,NB); % (32*30) Matrix
-Dmn_SR = zeros(NP,NB);
+Dmn_SR  = zeros(NP,NB);
 
 Rjm_Surge  = zeros(NP,1);   % (32)vector
-Rjm_Sway = zeros(NP,1);
+Rjm_Sway   = zeros(NP,1);
 Rjm_Heave  = zeros(NP,1);
-Rjm_Roll  = zeros(NP,1);
+Rjm_Roll   = zeros(NP,1);
 
 LHS_SuH = zeros(NB,NB);
-LHS_SR = zeros(NB,NB);
+LHS_SR  = zeros(NB,NB);
 
 RHS_Surge  = zeros(NB,1);
-RHS_Sway = zeros(NB,1);
+RHS_Sway   = zeros(NB,1);
 RHS_Heave  = zeros(NB,1);
-RHS_Roll  = zeros(NB,1);
+RHS_Roll   = zeros(NB,1);
 
 VP = zeros(4,NB);
 
@@ -115,16 +115,6 @@ for I=1:NB
     VP(4,I) = VP4(I); % Roll
 end
 
-%% Calculation of Forces and Kochin function
-%%% Input
-% VP   >> 4 Velocity Potentials at each segment, the segments are not
-% combined yet
 
-%%% Output
-% Zij  >> 16(4VP*4VN) Hydrodynamic Forces
-% Hj   >> 4 Kochin Function
-% The outputs are only for each section, integration of sections is in RFORCE & DFORCE
-[Zij,Hj,CHEK] = F2DRAD(NB,AK,VP,ELM,VN);
 
-return;
 end % Function end

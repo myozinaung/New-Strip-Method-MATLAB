@@ -1,7 +1,7 @@
 % *********************************************************************
 % *********  CALCULATION OF ADDED-MASS & DAMPING COEFFICIENTS *********
 % *********************************************************************
-function [ADD, DAMP, ZAB3D] = RFORCE(NX,AKL,UWE,LEN,X,ZAB)
+function [ADD, DAMP, ZAB3D] = AddedMassAndDamping(NX,AKL,UWE,LEN,X,ZAB)
 % Sectional Added Mass(A) and Damping(B) which are in single Complex Number of Z=A-Bi
 % are prepared for longitudinal integration to obtain the whole ship's A and B
 
@@ -49,14 +49,14 @@ end
 % Non ANTISYMMETRIC MODE
 for I = 1:2:5
     for J = 1:2:5
-        ZAB3D(I,J) = SIMP(dX,NMX,permute(ZE(I,J,:),[3,2,1]));
+        ZAB3D(I,J) = Simpson(dX,NMX,permute(ZE(I,J,:),[3,2,1]));
     end
 end
 
 % ANTISYMMETRIC MODE
 for I = 2:2:6
     for J = 2:2:6
-        ZAB3D(I,J) = SIMP(dX,NMX,permute(ZE(I,J,:),[3,2,1]));
+        ZAB3D(I,J) = Simpson(dX,NMX,permute(ZE(I,J,:),[3,2,1]));
     end
 end
 

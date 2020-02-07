@@ -1,7 +1,7 @@
 % **********************************************************************
 % ************   MOTION CALCULATION BY NEW STRIP METHOD   **************
 % **********************************************************************
-function [M_AMP, M_PHA, ZXJ] = MSTRIP(AKA,WKA,LEN,MDT,ZAB3D,ZE3D)
+function [M_AMP, M_PHA, ZXJ] = MotionSolve(AKA,WKA,LEN,MDT,ZAB3D,ZE3D)
 
 NDIM = 3;  % 3 (Surge,Heave,Pitch) + 3 (Sway,Roll,Yaw) >> (1,3,5)&(2,4,6)
 

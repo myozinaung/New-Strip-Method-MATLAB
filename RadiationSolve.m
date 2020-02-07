@@ -1,5 +1,5 @@
 %% 
-function [ZAB, Hj] = TWORAD(NX,NB,NT,AKB,SEC,NOR)
+function [ZAB, Hj] = RadiationSolve(NX,NB,NT,AKB,SEC,NOR)
 %% Calculation starts
 VN  = zeros(4,NB);
 ZAB = zeros(4,4,NX+1);
@@ -36,8 +36,17 @@ for I = 2:NX % loop for all transverse sections
     if (ELM.YQ(NB+1) < 1e-5) 
         NTT = NB;
     end
+    %% Calculation of Velocity Potentials
+    VP = VelocityPotential(NB,NTT,AKB,ELM,VN);
+    %% Calculation of Forces and Kochin function
+    % VP   >> 4 Velocity Potentials at each segment, the segments are not
+    % combined yet
 
-    [Zij,Hj(:,I)] = SOLRAD(NB,NTT,AKB,ELM,VN);
+    %%% Output
+    % Zij  >> 16(4VP*4VN) Hydrodynamic Forces
+    % Hj   >> 4 Kochin Function
+    % The outputs are only for each section, integration of sections is in RFORCE & DFORCE
+    [Zij,Hj(:,I),CHEK] = ForceAndKochin(NB,AKB,VP,ELM,VN);
     ZAB(:,:,I) = Zij;
 
 end

@@ -1,7 +1,7 @@
 % *********************************************************************
 % *********      NUMERICAL INTEGRATION BY SIMPSON RULE        *********
 % *********************************************************************
-function ZSE = SIMP(H,N,ZE)
+function ZSE = Simpson(H,N,ZE)
 % H    : Distance between Section
 % N    : No. of all Sections
 % ZE   : Input function to integrate

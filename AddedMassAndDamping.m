@@ -18,7 +18,7 @@ WNON = sqrt(AKL); % Non-dimensionalized Omega_e = Omega_e/(sqrt(g/L))
 BNON = WNON;      % 
 
 ZE     = zeros(6,6,NMX);
-ZAB3D = zeros(6,6);
+ZAB3D  = zeros(6,6);
 %% 
 for I = 1:NMX 
     % Non ANTISYMMETRIC MODE 

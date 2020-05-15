@@ -11,9 +11,9 @@ YQ = ELM.ZQ; % Z becomes Y
 
 %% Calculation Starts
 Tn_Surge_Heave  = zeros(NB,NB);
-Tn_Sway_Roll = zeros(NB,NB);
+Tn_Sway_Roll    = zeros(NB,NB);
 Ln_Surge_Heave  = zeros(NB,NB);
-Ln_Sway_Roll = zeros(NB,NB);
+Ln_Sway_Roll    = zeros(NB,NB);
 
 % Let Point A for (n) & Point B for (n+1)
 for I = 1:NB
@@ -53,10 +53,10 @@ for I = 1:NB
         [Tn2_port, Ln2_port] = TnLnCal(XA2_P,YA2_P,XB2_P,YB2_P,SinDel,CosDel);
         
         Tn_Surge_Heave(I,J)  = -((Tn1_star - Tn2_star) + (Tn1_port - Tn2_port)); % Excess (-)
-        Tn_Sway_Roll(I,J) = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port));
+        Tn_Sway_Roll(I,J)    = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port));
         
         Ln_Surge_Heave(I,J)  =   (Ln1_star - Ln2_star) + (Ln1_port - Ln2_port);
-        Ln_Sway_Roll(I,J) =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port);        
+        Ln_Sway_Roll(I,J)    =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port);        
     end
 end
 end

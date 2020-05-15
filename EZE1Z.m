@@ -6,7 +6,6 @@ function [EC,ES] = EZE1Z(XX,YY)
 % EC is used in GINTEG function (EC = cos/real part in Continued Fraction)
 % ES is used in TCAL function (ES = sin/imag part in Continued Fraction)
 
-
 PI    = 3.14159265358979; 
 GAMMA = 0.5772156649015; % (GAMMA = Euler's Constant)
 

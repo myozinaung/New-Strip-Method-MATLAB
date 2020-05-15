@@ -2,6 +2,7 @@
 %               INTEGRAL OF FREE-SURFACE GREEN FUNCTION
 % *********************************************************************
 % Output >> -2Sn
+% The calculation method is not exactly same as the textbook one
 function [Sn_Surge_Heave,Sn_Sway_Roll] = Sn2(I,J,AK,ELM)
 %% Obtain Point P & Q of the working section
 XP = ELM.YP; % Y becomes X
@@ -15,7 +16,7 @@ UU = zeros(2,1);
 %
 W  = 1;
 U  = 0.577350269189626; % = 1/sqrt(3) (Euler's Constant = 0.5772156649015)
-C = 0;
+C  = 0;
 %     /
 DX = XQ(J+1) - XQ(J);
 DY = YQ(J+1) - YQ(J);

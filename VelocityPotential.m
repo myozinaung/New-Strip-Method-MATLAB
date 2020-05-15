@@ -1,6 +1,7 @@
 % *********************************************************************
 % **********     SOLUTION OF 2-D RADIATION PROBLEM BY BEM     *********
 % *********************************************************************
+% Only for one transverse section
 function VP = VelocityPotential(NB,NT,AK,ELM,VN)
 NQ = NB+1; NP = NB+2;
 
@@ -8,7 +9,7 @@ NQ = NB+1; NP = NB+2;
 FS2_SuH = zeros(NQ,1);
 FS2_SR  = zeros(NQ,1);
 
-Dmn_SuH = zeros(NP,NB); % (32*30) Matrix
+Dmn_SuH = zeros(NP,NB);     % (32*30) Matrix
 Dmn_SR  = zeros(NP,NB);
 
 Rjm_Surge  = zeros(NP,1);   % (32)vector
@@ -31,7 +32,7 @@ VP = zeros(4,NB);
 for I = 1:NT
     if (I <= NB)
         Dmn_SuH(I,I) = pi + 0i; 
-        Dmn_SR(I,I) = pi + 0i;
+        Dmn_SR(I,I)  = pi + 0i;
     end
 end
 %% Prepare for Linear System of Equation AX = B
@@ -68,10 +69,10 @@ for I = 1:NT
 
         if (I <= NB)
             Ln_SuH = LnSurgeHeave(I,K);
-            Ln_SR = LnSwayRoll(I,K);
+            Ln_SR  = LnSwayRoll(I,K);
         else
             Ln_SuH = 0;
-            Ln_SR = 0;
+            Ln_SR  = 0;
         end
       
         Rjm_Surge(I)  = Rjm_Surge(I)  + (Ln_SuH+Sn_SuH)*VN(1,K);  % VNX
@@ -87,7 +88,7 @@ for I = 1:NB
     for J = 1:NB
         for K = 1:NT
             LHS_SuH(I,J) = LHS_SuH(I,J) + Dmn_SuH(K,I)*Dmn_SuH(K,J);
-            LHS_SR(I,J) = LHS_SR(I,J) + Dmn_SR(K,I)*Dmn_SR(K,J);
+            LHS_SR(I,J)  = LHS_SR(I,J)  + Dmn_SR(K,I)*Dmn_SR(K,J);
             % (IxJ) = sum(sum((IxK)*(KxJ)))
         end
     end

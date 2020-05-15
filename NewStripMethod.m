@@ -1,4 +1,4 @@
-clear;
+function [M_AMP, M_PHA, E_AMP, E_PHA, ADD, DAMP, Hj] = NewStripMethod
 
 % For Offset
 NX = 40;        % Number of strips along ship length
@@ -22,8 +22,8 @@ B = LEN.B;      % Breadth/2
 
 %% User Input from keyboard
 FR   = 0.2;     % Froude Number
-RL   = 1.0;       % lambda/Lpp
-DKAI = 45;     % Relative Heading(Kai) in Degree
+RL   = 1.0;     % lambda/Lpp
+DKAI = 45;      % Relative Heading(Kai) in Degree
 
 %% +++++++++++++++++ RADIATION PROBLEM +++++++++++++++++++++++++
 % AKA =AKL/2.0D0;

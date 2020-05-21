@@ -1,7 +1,7 @@
 % *********************************************************************
 %         INFLUENCE COEFFICIENTS DUE TO LOG-TYPE SINGULAR TERM
 % *********************************************************************
-function [Ln_Surge_Heave,Tn_Surge_Heave,Ln_Sway_Roll,Tn_Sway_Roll] = TnLn(NB,ELM)
+function [Ln_Sway_Roll,Tn_Sway_Roll,Ln_Heave_Diff,Tn_Heave_Diff] = TnLn(NB,ELM)
 %% Obtain Element Points P and Q
 % Change notation used in 3D(Y,Z) to 2D(X,Y)
 XP = ELM.YP; % Y becomes X
@@ -10,12 +10,12 @@ XQ = ELM.YQ; % Y becomes X
 YQ = ELM.ZQ; % Z becomes Y
 
 %% Calculation Starts
-Tn_Surge_Heave  = zeros(NB,NB);
-Tn_Sway_Roll    = zeros(NB,NB);
-Ln_Surge_Heave  = zeros(NB,NB);
-Ln_Sway_Roll    = zeros(NB,NB);
+Tn_Sway_Roll  = zeros(NB,NB);
+Tn_Heave_Diff = zeros(NB,NB);
+Ln_Sway_Roll  = zeros(NB,NB);
+Ln_Heave_Diff = zeros(NB,NB);
 
-% Let Point A for (n) & Point B for (n+1)
+% Let Point "A" for "(n)" & Point "B" for "(n+1)"
 for I = 1:NB
     for J = 1:NB
         % Distance between A & B
@@ -27,7 +27,7 @@ for I = 1:NB
         SinDel = DY/D;
         
         % 
-        %%% For Starboard Side >> x = x
+        %%% For Starboard Side >> x = x %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % For Tn(x,y) & Ln(x,y)   >> (x-xi,y-eta)
         XA1_S =  XP(I) - XQ(J);         XB1_S =  XP(I) - XQ(J+1);
         YA1_S =  YP(I) - YQ(J);         YB1_S =  YP(I) - YQ(J+1);
@@ -39,7 +39,7 @@ for I = 1:NB
         [Tn1_star, Ln1_star] = TnLnCal(XA1_S,YA1_S,XB1_S,YB1_S,SinDel,CosDel);
         [Tn2_star, Ln2_star] = TnLnCal(XA2_S,YA2_S,XB2_S,YB2_S,SinDel,CosDel);
         
-        %%% For PortSide >> x = -x >> Field Point P flip
+        %%% For PortSide >> x = -x >> Field Point P flip %%%%%%%%%%%%%%%%%%
         % For Tn(x,y) & Ln(x,y)   >> (-x-xi,y-eta)
         XA1_P = -XP(I) - XQ(J);         XB1_P = -XP(I) - XQ(J+1);
         YA1_P =  YP(I) - YQ(J);         YB1_P =  YP(I) - YQ(J+1);
@@ -52,11 +52,11 @@ for I = 1:NB
         [Tn1_port, Ln1_port] = TnLnCal(XA1_P,YA1_P,XB1_P,YB1_P,SinDel,CosDel);
         [Tn2_port, Ln2_port] = TnLnCal(XA2_P,YA2_P,XB2_P,YB2_P,SinDel,CosDel);
         
-        Tn_Surge_Heave(I,J)  = -((Tn1_star - Tn2_star) + (Tn1_port - Tn2_port)); % Excess (-)
-        Tn_Sway_Roll(I,J)    = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port));
+        Tn_Sway_Roll(I,J)  = -((Tn1_star - Tn2_star) + (Tn1_port - Tn2_port)); % Excess (-)
+        Tn_Heave_Diff(I,J) = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port));
         
-        Ln_Surge_Heave(I,J)  =   (Ln1_star - Ln2_star) + (Ln1_port - Ln2_port);
-        Ln_Sway_Roll(I,J)    =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port);        
+        Ln_Sway_Roll(I,J)  =   (Ln1_star - Ln2_star) + (Ln1_port - Ln2_port);
+        Ln_Heave_Diff(I,J) =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port);        
     end
 end
 end

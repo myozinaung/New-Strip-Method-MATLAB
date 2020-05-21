@@ -3,7 +3,7 @@
 % *********************************************************************
 % Output >> -2Sn
 % The calculation method is not exactly same as the textbook one
-function [Sn_Surge_Heave,Sn_Sway_Roll] = Sn2(I,J,AK,ELM)
+function [Sn_Sway_Roll,Sn_Heave_Diff] = Sn2(I,J,AK,ELM)
 %% Obtain Point P & Q of the working section
 XP = ELM.YP; % Y becomes X
 YP = ELM.ZP; % Z becomes Y
@@ -37,7 +37,7 @@ WW(2) = W*C2;      % = D/2
 QX1_star =  (XQ(J) + UU(1)*CosDel);    QY1 = YQ(J) + UU(1)*SinDel; % difference between 1 and 2 is due to UU
 QX2_star =  (XQ(J) + UU(2)*CosDel);    QY2 = YQ(J) + UU(2)*SinDel; % difference between S and P is due to sign of QX
 
-QX1_port = -(XQ(J) + UU(1)*CosDel); % >> Body Point Q flip
+QX1_port = -(XQ(J) + UU(1)*CosDel); % >> Body Point "Q" flip
 QX2_port = -(XQ(J) + UU(2)*CosDel);
 
 XE1_star = AK*(YP(I)+QY1);           XE2_star = AK*(YP(I)+QY2);
@@ -59,8 +59,8 @@ FC2_star = EC2_star - 1i*pi*exp(-XE2_star-1i*YE2_star);
 FC1_port = EC1_port - 1i*pi*exp(-XE1_port-1i*YE1_port);
 FC2_port = EC2_port - 1i*pi*exp(-XE2_port-1i*YE2_port);
 
-Sn_Surge_Heave  = -2*((WW(1)*FC1_star + WW(2)*FC2_star) + (WW(1)*FC1_port + WW(2)*FC2_port)); % Why 1 and 2 are added
-Sn_Sway_Roll    = -2*((WW(1)*FC1_star + WW(2)*FC2_star) - (WW(1)*FC1_port + WW(2)*FC2_port));
+Sn_Sway_Roll  = -2*((WW(1)*FC1_star + WW(2)*FC2_star) + (WW(1)*FC1_port + WW(2)*FC2_port)); % Why 1 and 2 are added
+Sn_Heave_Diff = -2*((WW(1)*FC1_star + WW(2)*FC2_star) - (WW(1)*FC1_port + WW(2)*FC2_port));
 
 
 end % function end

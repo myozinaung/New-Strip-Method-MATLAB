@@ -3,8 +3,6 @@
 % **********************************************************************
 function [E_AMP, E_PHA, ZE3D] = WaveExcitingForce(NX,NB,AKA,WKA,UWE,KAI,LEN,X,SEC,NOR,ZAB)
 
-MNX = NX+1;
-
 % LEN Block
 A     = LEN.A;
 B     = LEN.B;
@@ -22,19 +20,18 @@ VNY = NOR.VNY;
 VNZ = NOR.VNZ;
 
 %% Calculation Starts
-ZF1 = zeros(MNX,1);
-ZF2 = zeros(MNX,1);
-ZF3 = zeros(MNX,1);
-ZF4 = zeros(MNX,1);
-ZF5 = zeros(MNX,1);
-ZF6 = zeros(MNX,1);
+ZF1 = zeros(NX+1,1);
+ZF2 = zeros(NX+1,1);
+ZF3 = zeros(NX+1,1);
+ZF4 = zeros(NX+1,1);
+ZF5 = zeros(NX+1,1);
+ZF6 = zeros(NX+1,1);
 
-E_AMP = zeros(6,1);
 E_PHA = zeros(6,1);
 
 ZE3D  = zeros(6,1);
 
-dX = 2/NX;
+dX = 2/NX; % (1+1)m of ship length
 
 %% ++++++++++++++++++++++ BY NEW STRIP METHOD ++++++++++++++++++++++++
 WKB  = WKA*B/A;
@@ -42,12 +39,8 @@ WWeB = sqrt(AKA*WKA)*B/A; % = Omega*Omega_e*(B/2)
 
 for I = 2:NX % Obtain Forces for each Section
     % Q points of the section are obtained
-    YQ = zeros(NB+1);
-    ZQ = zeros(NB+1);
-    for J = 1:NB+1
-        YQ(J) = QY(I,J);
-        ZQ(J) = QZ(I,J);
-    end
+    YQ = QY(I,1:NB+1); % 1:NB+1
+    ZQ = QZ(I,1:NB+1);
     
     SUM1 = 0;
     SUM2 = 0;
@@ -74,21 +67,22 @@ for I = 2:NX % Obtain Forces for each Section
     
     eiKxCos   = exp(-1i*WKA*X(I)*cos(KAI));
     
-    ZAB_Surge  = 0.5*(ZAB(1,3,I)+ZAB(3,1,I)); % X >> Surge
-    ZAB_Sway   = ZAB(2,2,I);                % S >> Sway
-    ZAB_Heave  = ZAB(3,3,I);                % H >> Heave
-    ZAB_Roll   = 0.5*(ZAB(2,4,I)+ZAB(4,2,I)); % R >> Roll
+    ZAB_Surge  = 0.5*(ZAB(1,3,I)+ZAB(3,1,I)); % Surge
+    ZAB_Sway   = ZAB(2,2,I);                  % Sway  & Yaw
+    ZAB_Heave  = ZAB(3,3,I);                  % Heave & Pitch
+    ZAB_Roll   = 0.5*(ZAB(2,4,I)+ZAB(4,2,I)); % Roll
 
-    ZF1(I)=  eiKxCos*(SUM1 - WWeB*exp(-WKB*ZYF)*ZAB_Surge);
-    ZF2(I)= -eiKxCos*(SUM2 + WWeB*exp(-WKB*ZQ1)*ZAB_Sway*sin(KAI))*1i;
+    ZF1(I)=  eiKxCos*(SUM1 - WWeB*exp(-WKB*ZYF)*ZAB_Surge);                 % Surge
+    ZF2(I)= -eiKxCos*(SUM2 + WWeB*exp(-WKB*ZQ1)*ZAB_Sway*sin(KAI))*1i;      % Sway
     
-    ZF3(I)=  eiKxCos*(SUM3 - WWeB*exp(-WKB*ZYF)*ZAB_Heave);
-    ZF4(I)= -eiKxCos*(SUM4 + WWeB*exp(-WKB*ZQ1)*ZAB_Roll*sin(KAI))*1i;
+    ZF3(I)=  eiKxCos*(SUM3 - WWeB*exp(-WKB*ZYF)*ZAB_Heave);                 % Heave
+    ZF4(I)= -eiKxCos*(SUM4 + WWeB*exp(-WKB*ZQ1)*ZAB_Roll*sin(KAI))*1i;      % Roll
     
-    ZF5(I)= -X(I)*ZF3(I) - eiKxCos*WWeB*UWE*exp(-WKB*ZYF)*ZAB_Heave*1i;
-    ZF6(I)=  X(I)*ZF2(I) - eiKxCos*WWeB*UWE*exp(-WKB*ZQ1)*ZAB_Sway*sin(KAI);
+    ZF5(I)= -X(I)*ZF3(I) - eiKxCos*WWeB*UWE*exp(-WKB*ZYF)*ZAB_Heave*1i;     % Pitch --> Heave
+    ZF6(I)=  X(I)*ZF2(I) - eiKxCos*WWeB*UWE*exp(-WKB*ZQ1)*ZAB_Sway*sin(KAI);% Yaw   --> Sway
 end
-  
+
+% Integrate all the sections to get forces for whole vessel
 ZE3D(1) = Simpson(dX,NX+1,ZF1);
 ZE3D(2) = Simpson(dX,NX+1,ZF2);
 ZE3D(3) = Simpson(dX,NX+1,ZF3);
@@ -98,19 +92,17 @@ ZE3D(6) = Simpson(dX,NX+1,ZF6);
 
 % +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DNON = A*B/WAREA;
-for M = 1:6
-    ZE3D(M) = ZE3D(M)*DNON; % Re-dimensionalize
-end
+ZE3D = ZE3D.*DNON; % Re-dimensionalize
 
 % Change Complex to Amplitude and Phase
+E_AMP = abs(ZE3D);
+ER    = real(ZE3D);
+EI    = imag(ZE3D);
 for M = 1:6
-    E_AMP(M)= abs(ZE3D(M));
-    ER = real(ZE3D(M));
-    EI = imag(ZE3D(M));
-    if (ER == 0) && (EI == 0)
+    if (ER(M) == 0) && (EI(M) == 0)
         E_PHA(M) = 0;
     else
-        E_PHA(M) = atan2(EI,ER)*(180/pi);
+        E_PHA(M) = atan2(EI(M),ER(M))*(180/pi);
     end
 end
 

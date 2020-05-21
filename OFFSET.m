@@ -1,18 +1,20 @@
 %% Offset Subroutine
-function [LEN, MDT, X, SEC, NOR] = OFFSET(NX,NB,NT,DAT)
-% DAT Block 
-ALEN = DAT.ALEN;
-BRED = DAT.BRED;
-DRFT = DAT.DRFT;
-GML  = DAT.GML;
-GMB  = DAT.GMB;
-KXX  = DAT.KXX;
-KYY  = DAT.KYY;
-KZZ  = DAT.KZZ;
+function [LEN, MDT, X, SEC, NOR] = OFFSET(NX,NB,NT)
 
-% Parameters
-MNX=81; MNB=50; MNQ=51; MNP=53;
+% Ship parameters
+ALEN = 2.0;      % Ship Length
+BRED = 0.3;      % Breadth
+DRFT = 0.125;    % Draft
+GML  = 2.03509;  % Longitudinal Metacentric Height
+GMB  = 0.001;    % Transverse Metacentric Height
+KXX  = 0.25;     % Radius of Gyration about X-axis
+KYY  = 0.2324;   % Radius of Gyration about Y-axis
+KZZ  = 0.2324;   % Radius of Gyration about Z-axis
 
+% Parameters 
+IAD = NT - NB;  % No. of Additional field points for irregular frequency treatment
+MNX=NX+1; MNB=NB; MNQ=NB+1; MNP=NB+IAD;
+% These numbers are larger than necessary, should be reduced.
 
 %%
 X   = zeros(MNX,1);
@@ -51,7 +53,6 @@ IXX = 4*KXX^2;
 IYY = 4*KYY^2;
 IZZ = 4*KZZ^2;
 
-IAD = NT - NB;  % No. of Additional field points for irregular frequency treatment
 DX  = 2/NX;     % Distance between strips
 
 for I = 1:NX+1    % loop for (no. of strip + 1)
@@ -163,6 +164,7 @@ LEN.C     = C;
 LEN.VOL   = VOL;
 LEN.WAREA = WAREA;
 
+% For Motion Equation
 MDT.IXX = IXX;
 MDT.IYY = IYY;
 MDT.IZZ = IZZ;

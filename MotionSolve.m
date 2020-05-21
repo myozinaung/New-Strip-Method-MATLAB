@@ -71,7 +71,7 @@ RHS(1) = SUB* ZE3D(1);
 RHS(2) = SUB* ZE3D(3);
 RHS(3) = SUB*(ZE3D(5)+LX*ZE3D(3)-LZ*B/A*ZE3D(1));
 
-% SOLVE Motions
+%%%%%% SOLVE Motions %%%%%%%
 RHS = linsolve(LHS,RHS);
 
 % Complex No. for 3 Motions (Surge, Heave, Pitch)
@@ -126,7 +126,7 @@ RHS(1) = SUB* ZE3D(2);
 RHS(2) = SUB*(ZE3D(4)+LZ*ZE3D(2));
 RHS(3) = SUB*(ZE3D(6)-LX*ZE3D(2));
 
-% SOLVE Motions
+%%%%%%% SOLVE Motions %%%%%%%
 RHS = linsolve(LHS,RHS);
 
 % Complex No. for another 3 Motions (Sway, Roll, Yaw)

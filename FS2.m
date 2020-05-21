@@ -1,7 +1,7 @@
 % *********************************************************************
 %       INTEGRAL OF NORMAL DIPOLE OF FREE-SURFACE GREEN FUNCTION
 % *********************************************************************
-function [FS2_SuH,FS2_SR] = FS2(I,J,AK,ELM)
+function [FS_Sway_Roll,FS_Heave_Diff] = FS2(I,J,AK,ELM)
 %%% INPUT %%%
 % I   >> index for Field Point P (NB+2) Points (Source Points on Segments)
 % J   >> index for Body  Point Q (NB+1) Points
@@ -19,13 +19,13 @@ YQ = ELM.ZQ;
 
 %% Calculation Starts
 X_star = XP(I) - XQ(J); % Let (x-xi)  = X_star
-X_port = XP(I) + XQ(J); % Let (x+xi)  = X_port >> Body Point Q flip
+X_port = XP(I) + XQ(J); % Let (x+xi)  = X_port >> Body Point "Q" flip
 Y      = YP(I) + YQ(J); % Let (y+eta) = Y
 
 %  Z  =  K(y+eta)+iK|x-xi| 
 XE      =  AK*Y;           %  K(y+eta)
 YE_star =  AK*abs(X_star); %  K|x-xi|
-YE_port =  AK*abs(X_port); %  K|x+xi|
+YE_port =  AK*abs(X_port); %  K|x+xi| >> Body Point Q flip
 
 Z_star = XE +1i*YE_star;
 Z_port = XE +1i*YE_port;
@@ -46,10 +46,7 @@ else
     FS_port = sign(X_port)*(ES_port - pi*exp(-Z_port));
 end
 
-FS_Surge_Heave  =  FS_star - FS_port; % opposite from Tn or (Ln & Sn)
-FS_Sway_Roll    =  FS_star + FS_port;
-
-FS2_SuH = 2*FS_Surge_Heave; % need (-), Tn has excess (-)
-FS2_SR  = 2*FS_Sway_Roll;
+FS_Sway_Roll  =  2*(FS_star - FS_port); % opposite from Tn or (Ln & Sn) % need (-), Tn has excess (-)
+FS_Heave_Diff =  2*(FS_star + FS_port);
 
 end

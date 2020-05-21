@@ -1,22 +1,11 @@
 function [M_AMP, M_PHA, E_AMP, E_PHA, ADD, DAMP, Hj] = NewStripMethod
-
 % For Offset
 NX = 40;        % Number of strips along ship length
-NB = 30;        % Number of segments on each strip    >> P(YP,ZP)
-NT = NB+2;      % Number of total field points on each strip 
-
-% Ship parameters
-DAT.ALEN = 2.0;      % Ship Length
-DAT.BRED = 0.3;      % Breadth
-DAT.DRFT = 0.125;    % Draft
-DAT.GML  = 2.03509;  % Longitudinal Metacentric Height
-DAT.GMB  = 0.001;    % Transverse Metacentric Height
-DAT.KXX  = 0.25;     % Radius of Gyration about X-axis
-DAT.KYY  = 0.2324;   % Radius of Gyration about Y-axis
-DAT.KZZ  = 0.2324;   % Radius of Gyration about Z-axis
+NB = 30;        % Number of segments on each strip    >> Q(YP,ZP)
+NT = NB+2;      % Number of total field points P on each strip Total segment + 2 additional points
 
 %% OFFSET INPUT
-[LEN, MDT, X, SEC, NOR] = OFFSET(NX,NB,NT,DAT);
+[LEN, MDT, X, SEC, NOR] = OFFSET(NX,NB,NT);
 A = LEN.A;      % Lpp/2
 B = LEN.B;      % Breadth/2
 

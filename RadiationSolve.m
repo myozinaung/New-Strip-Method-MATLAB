@@ -1,4 +1,4 @@
-function [ZAB, Hj] = RadiationSolve(NX,NB,NT,AKB,SEC,NOR)
+function [ZAB, Hj] = RadiationSolve(NX,NB,NT,AKB,SEC,NOR) % TWORAD
 %% Calculation starts
 VN  = zeros(4,NB);
 ZAB = zeros(4,4,NX+1);
@@ -22,7 +22,7 @@ for I = 2:NX % loop for all transverse sections
             continue;
         end
         
-        % (1~3) Radiation and 4: Diffraction
+        % nj (1~3) Radiation(2D --> no Surge, Pitch, Yaw) and 4: Diffraction
         VN(1,J) = NOR.VNX(I,J); % for Sway
         VN(2,J) = NOR.VNY(I,J); % for Heave
         VN(3,J) = NOR.VNZ(I,J); % for Roll
@@ -39,11 +39,11 @@ for I = 2:NX % loop for all transverse sections
     % VP   >> 4 Velocity Potentials at each segment, the segments are not
     % combined yet
     %% Calculation of Forces and Kochin function
-    %%% Output
+    %%% OUTPUT
     % Zij  >> 16(4VP*4VN) Hydrodynamic Forces
     % Hj   >> 4 Kochin Function
     % The outputs are only for each section, integration of sections is in RFORCE & DFORCE
-    [Zij,Hj(:,I),CHEK] = ForceAndKochin(NB,AKB,VP,ELM,VN);
+    [Zij,Hj(:,I),CHEK] = ForceAndKochin(NB,AKB,VP,ELM,VN); % Doubling for Port and Starborad is done inside this function
     ZAB(:,:,I) = Zij;
 end
 end % TWORAD Function end

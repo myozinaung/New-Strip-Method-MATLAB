@@ -1,4 +1,4 @@
-function [M_AMP, M_PHA, E_AMP, E_PHA, ADD, DAMP, Hj] = NewStripMethod
+% function [M_AMP, M_PHA, E_AMP, E_PHA, ADD, DAMP, Hj] = NewStripMethod
 % For Offset
 NX = 40;        % Number of strips along ship length
 NB = 30;        % Number of segments on each strip    >> Q(YP,ZP)
@@ -6,6 +6,8 @@ NT = NB+2;      % Number of total field points P on each strip Total segment + 2
 
 %% OFFSET INPUT
 [LEN, MDT, X, SEC, NOR] = OFFSET(NX,NB,NT);
+% SEC include only HALF of the ship
+% z-axis is +ive downward
 A = LEN.A;      % Lpp/2
 B = LEN.B;      % Breadth/2
 

@@ -1,5 +1,5 @@
 % *********************************************************************
-%       INTEGRAL OF NORMAL DIPOLE OF FREE-SURFACE GREEN FUNCTION
+%       INTEGRAL OF NORMAL DIPOLE OF FREE-SURFACE GREEN FUNCTION (TCAL)
 % *********************************************************************
 function [FS_Sway_Roll,FS_Heave_Diff] = FS2(I,J,AK,ELM)
 %%% INPUT %%%
@@ -46,7 +46,7 @@ else
     FS_port = sign(X_port)*(ES_port - pi*exp(-Z_port));
 end
 
-FS_Sway_Roll  =  2*(FS_star - FS_port); % opposite from Tn or (Ln & Sn) % need (-), Tn has excess (-)
+FS_Sway_Roll  =  2*(FS_star - FS_port); % opposite from Tn or (Ln & Sn) also Q point flip % need (-), Tn has excess (-)
 FS_Heave_Diff =  2*(FS_star + FS_port);
 
 end

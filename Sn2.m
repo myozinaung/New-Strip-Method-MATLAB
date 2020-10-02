@@ -1,5 +1,5 @@
 % *********************************************************************
-%               INTEGRAL OF FREE-SURFACE GREEN FUNCTION
+%               INTEGRAL OF FREE-SURFACE GREEN FUNCTION (GINTEG)
 % *********************************************************************
 % Output >> -2Sn
 % The calculation method is not exactly same as the textbook one
@@ -40,11 +40,11 @@ QX2_star =  (XQ(J) + UU(2)*CosDel);    QY2 = YQ(J) + UU(2)*SinDel; % difference 
 QX1_port = -(XQ(J) + UU(1)*CosDel); % >> Body Point "Q" flip
 QX2_port = -(XQ(J) + UU(2)*CosDel);
 
-XE1_star = AK*(YP(I)+QY1);           XE2_star = AK*(YP(I)+QY2);
-YE1_star = AK*abs(XP(I)-QX1_star);   YE2_star = AK*abs(XP(I)-QX2_star); 
+XE1_star = AK*   (YP(I) + QY1);        XE2_star = AK*   (YP(I) + QY2);
+YE1_star = AK*abs(XP(I) - QX1_star);   YE2_star = AK*abs(XP(I) - QX2_star); 
 
-XE1_port = AK*(YP(I)+QY1);           XE2_port = AK*(YP(I)+QY2);  
-YE1_port = AK*abs(XP(I)-QX1_port);   YE2_port = AK*abs(XP(I)-QX2_port);
+XE1_port = AK*   (YP(I) + QY1);        XE2_port = AK*   (YP(I) + QY2);  
+YE1_port = AK*abs(XP(I) - QX1_port);   YE2_port = AK*abs(XP(I) - QX2_port);
 
 % Z = XE + iYE
 [EC1_star,~] = EZE1Z(-XE1_star,-YE1_star); % Sign of YE does not effect the EC value

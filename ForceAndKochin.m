@@ -46,7 +46,7 @@ for J = 1:NB % Sum for all segments
         for MJ = 1:4 % Mode of Motion
             % Z_ij = A-iB = -sum(phi_j*n_i*D), n_i = component of normal vector on each segment
             % E_iD        =  sum(phi_D*n_i*D)
-            Zij(MI,MJ) = Zij(MI,MJ) - VP(MJ,J)*VN(MI,J)*D*2; % Why 2 is here? Diffraction should not have (-)
+            Zij(MI,MJ) = Zij(MI,MJ) - VP(MJ,J)*VN(MI,J)*D*2; % Why 2 is here?(both starboard and port) Diffraction should not have (-)
             % ZAB >> Z=A-iB
         end
     end 

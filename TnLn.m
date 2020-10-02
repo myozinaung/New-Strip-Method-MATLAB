@@ -40,11 +40,11 @@ for I = 1:NB
         [Tn2_star, Ln2_star] = TnLnCal(XA2_S,YA2_S,XB2_S,YB2_S,SinDel,CosDel);
         
         %%% For PortSide >> x = -x >> Field Point P flip %%%%%%%%%%%%%%%%%%
-        % For Tn(x,y) & Ln(x,y)   >> (-x-xi,y-eta)
+        % For Tn(-x,y) & Ln(-x,y)   >> (-x-xi,y-eta)
         XA1_P = -XP(I) - XQ(J);         XB1_P = -XP(I) - XQ(J+1);
         YA1_P =  YP(I) - YQ(J);         YB1_P =  YP(I) - YQ(J+1);
         
-        % For Tn(x,-y) & Ln(x,-y) >> (-x-xi,-y-eta)
+        % For Tn(-x,-y) & Ln(-x,-y) >> (-x-xi,-y-eta)
         XA2_P = -XP(I) - XQ(J);         XB2_P = -XP(I) - XQ(J+1);
         YA2_P = -YP(I) - YQ(J);         YB2_P = -YP(I) - YQ(J+1);        
         
@@ -52,11 +52,12 @@ for I = 1:NB
         [Tn1_port, Ln1_port] = TnLnCal(XA1_P,YA1_P,XB1_P,YB1_P,SinDel,CosDel);
         [Tn2_port, Ln2_port] = TnLnCal(XA2_P,YA2_P,XB2_P,YB2_P,SinDel,CosDel);
         
-        Tn_Sway_Roll(I,J)  = -((Tn1_star - Tn2_star) + (Tn1_port - Tn2_port)); % Excess (-)
-        Tn_Heave_Diff(I,J) = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port));
+        % 1 >> y, 2 >> -y, star >> x, port >> -x
+        Tn_Sway_Roll(I,J)  = -((Tn1_star - Tn2_star) + (Tn1_port - Tn2_port)); % [(1-Krdelta)Tn(x,y) - Tn(x,-y)] % Excess (-) 
+        Tn_Heave_Diff(I,J) = -((Tn1_star - Tn2_star) - (Tn1_port - Tn2_port)); % [(1-Krdelta)Tn(x,y) - Tn(x,-y)]
         
-        Ln_Sway_Roll(I,J)  =   (Ln1_star - Ln2_star) + (Ln1_port - Ln2_port);
-        Ln_Heave_Diff(I,J) =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port);        
+        Ln_Sway_Roll(I,J)  =   (Ln1_star - Ln2_star) + (Ln1_port - Ln2_port); % [Ln(x,y) - Ln(x,-y)]
+        Ln_Heave_Diff(I,J) =   (Ln1_star - Ln2_star) - (Ln1_port - Ln2_port); % [Ln(x,y) - Ln(x,-y)]       
     end
 end
 end
